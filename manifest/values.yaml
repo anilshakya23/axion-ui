@@ -1,0 +1,7 @@
+name: axion-ui
+
+app: axion-ui
+
+containerName: axion-ui-container
+
+replicaCount: 1 

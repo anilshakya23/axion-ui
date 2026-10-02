@@ -16,3 +16,10 @@ stages:
             repository: 'container12'
             command: 'build'
             Dockerfile: '**/Dockerfile'
+      - job: Trivy 
+        displayName: Trivy 
+        steps:
+        - task: PowerShell@2
+          inputs:
+            targetType: 'inline'
+            script: 'trivy image --severity HIGH,CRITICAL --exit-code 1 container12.azurecr.io/axion-ui: latest'

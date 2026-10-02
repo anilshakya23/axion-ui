@@ -1,0 +1,18 @@
+trigger:
+- main
+
+pool: axion-pool
+
+stages:
+  - stage: 
+    displayName: build 
+    jobs:
+      - job: Build
+        displayName: Build
+        steps:
+        - task: Docker@2
+          inputs:
+            containerRegistry: 'axion-container-connection'
+            repository: 'container12'
+            command: 'build'
+            Dockerfile: '**/Dockerfile'

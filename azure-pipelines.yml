@@ -4,6 +4,20 @@ trigger:
 pool: axion-pool
 
 stages:
+  - stage: LintingScaning
+    displayName: LintingScaning 
+    jobs:
+      - job: boime
+        displayName: boime
+        steps:
+        - task: PowerShell@2
+          inputs:
+            targetType: 'inline'
+            script: 'Invoke-WebRequest -Uri "https://github.com/biomejs/biome/releases/download/%40biomejs%2Fbiome%402.5.15/biome-win32-x64.exe" -OutFile ".\biome.exe"'
+        - task: PowerShell@2
+          inputs:
+            targetType: 'inline'
+            script: '.\biome.exe check .'
   - stage: 
     displayName: build 
     jobs:

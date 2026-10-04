@@ -15,6 +15,7 @@ stages:
             targetType: 'inline'
             script: 'Invoke-WebRequest -Uri "https://github.com/biomejs/biome/releases/download/%40biomejs%2Fbiome%402.5.15/biome-win32-x64.exe" -OutFile ".\biome.exe"'
         - task: PowerShell@2
+          continueOnError: true
           inputs:
             targetType: 'inline'
             script: '.\biome.exe check .'

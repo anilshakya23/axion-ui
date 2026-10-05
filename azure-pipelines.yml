@@ -35,6 +35,7 @@ stages:
             cliProjectKey: 'axion-system_axion-system_4be8886d-9c67-4a71-8ae1-14830521003a'
             cliProjectName: 'axion-system'
             cliSources: '.'
+            
         - task: SonarQubeAnalyze@8
           inputs:
             jdkversion: 'JAVA_HOME_17_X64'

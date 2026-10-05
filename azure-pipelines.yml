@@ -29,12 +29,11 @@ stages:
         steps:
         - task: SonarQubePrepare@8
           inputs:
-            SonarQube: 'sonerqube-connection'
+            SonarQube: 'sonarqube-connection'
             scannerMode: 'cli'
             configMode: 'manual'
             cliProjectKey: 'sonarqubeserver'
             cliProjectName: 'sonarqubeserver'
-            cliProjectVersion: 
             cliSources: '.'
             
         - task: SonarQubeAnalyze@8

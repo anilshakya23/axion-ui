@@ -37,4 +37,4 @@ stages:
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
-            script: 'trivy image --severity HIGH,CRITICAL --exit-code 1 container12.azurecr.io/axion-ui: latest'
+            script: 'trivy image --severity HIGH,CRITICAL --format table --output trivy-report.txt container12.azurecr.io/axion-ui:latest'

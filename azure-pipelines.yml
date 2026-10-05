@@ -19,7 +19,7 @@ stages:
           inputs:
             targetType: 'inline'
             script: '.\biome.exe check .'
-  - stage: 
+  - stage: ImageBuild 
     displayName: build 
     jobs:
       - job: Build
@@ -31,8 +31,12 @@ stages:
             repository: 'container12'
             command: 'build'
             Dockerfile: '**/Dockerfile'
-      - job: Trivy 
-        displayName: Trivy 
+  - stage: ImageScan
+    displayName: Image Scan with trivy
+    jobs: 
+      - job: Trivy
+        displayName: Trivy
+        dependsOn: ImageBuild
         steps:
         - task: PowerShell@2
           inputs:

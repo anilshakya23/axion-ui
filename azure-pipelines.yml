@@ -1,14 +1,16 @@
 trigger:
 - main
+- feature/*
+- devlop
 
 pool: axion-pool
 
 stages:
-  - stage: LintingScaning
-    displayName: LintingScaning 
+  - stage: CodeQuality
+    displayName: Code Quality & Linting
     jobs:
-      - job: boime
-        displayName: boime
+      - job: BiomeLint
+        displayName: Biome Lint & Format Check
         steps:
         - task: PowerShell@2
           inputs:
@@ -19,27 +21,48 @@ stages:
           inputs:
             targetType: 'inline'
             script: '.\biome.exe check .'
-  - stage: ImageBuild 
-    displayName: build
-    dependsOn: LintingScaning 
+  - stage: SAST
+    displayName: Static Application Security Testing
     jobs:
-      - job: Build
-        displayName: Build
+      - job: SonarQubeSAST
+        displayName: SonarQube code covrage
         steps:
-        - task: Docker@2
+        - task: SonarQubePrepare@8
           inputs:
-            containerRegistry: 'axion-container-connection'
-            repository: 'container12'
-            command: 'build'
-            Dockerfile: '**/Dockerfile'
-  - stage: ImageScan
-    displayName: Image Scan with trivy
-    dependsOn: ImageBuild
-    jobs: 
-      - job: Trivy
-        displayName: Trivy
-        steps:
-        - task: PowerShell@2
+            SonarQube: 'sonarqube-connection'
+            scannerMode: 'cli'
+            configMode: 'manual'
+            cliProjectKey: 'axion-system_axion-system_4be8886d-9c67-4a71-8ae1-14830521003a'
+            cliProjectName: 'axion-system'
+            cliSources: '.'
+        - task: SonarQubeAnalyze@8
           inputs:
-            targetType: 'inline'
-            script: 'trivy image --severity HIGH,CRITICAL --format table --output trivy-report.txt container12.azurecr.io/axion-ui:latest'
+            jdkversion: 'JAVA_HOME_17_X64'
+        - task: SonarQubePublish@8
+          inputs:
+            pollingTimeoutSec: '300'
+
+  # - stage: ImageBuild 
+  #   displayName: build
+  #   dependsOn: LintingScaning 
+  #   jobs:
+  #     - job: Build
+  #       displayName: Build
+  #       steps:
+  #       - task: Docker@2
+  #         inputs:
+  #           containerRegistry: 'axion-container-connection'
+  #           repository: 'container12'
+  #           command: 'build'
+  #           Dockerfile: '**/Dockerfile'
+  # - stage: ImageScan
+  #   displayName: Image Scan with trivy
+  #   dependsOn: ImageBuild
+  #   jobs: 
+  #     - job: Trivy
+  #       displayName: Trivy
+  #       steps:
+  #       - task: PowerShell@2
+  #         inputs:
+  #           targetType: 'inline'
+  #           script: 'trivy image --severity HIGH,CRITICAL --format table --output trivy-report.txt container12.azurecr.io/axion-ui:latest'

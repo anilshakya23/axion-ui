@@ -21,6 +21,7 @@ stages:
   #         inputs:
   #           targetType: 'inline'
   #           script: '.\biome.exe check .'
+
   - stage: SAST
     displayName: Static Application Security Testing
     jobs:
@@ -36,10 +37,11 @@ stages:
             cliProjectKey: 'sonarqubeserver'
             cliProjectName: 'sonarqubeserver'
             cliSources: '.'
-            
+
         - task: SonarQubeAnalyze@8
           inputs:
             jdkversion: 'JAVA_HOME_17_X64'
+
         - task: SonarQubePublish@8
           inputs:
             pollingTimeoutSec: '300'

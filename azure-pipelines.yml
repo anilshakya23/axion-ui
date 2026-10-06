@@ -30,7 +30,7 @@ stages:
         - task: SonarQubePrepare@8
           displayName: 'Prepare SonarQube Analysis'
           inputs:
-            SonarQube: 'sonerqube-connection'
+            SonarQube: 'sonar-service-connection'
             scannerMode: 'cli'
             configMode: 'manual'
             cliProjectKey: 'sonarqubeserver'
